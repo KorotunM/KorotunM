@@ -30,11 +30,46 @@ if (empty($_POST['year']) || !is_numeric($_POST['year']) || !preg_match('/^\d+$/
   $errors = TRUE;
 }
 
+if (empty($_POST['month'])){
+  print('Заполните месяц.<br/>');
+  $errors = TRUE;
+}
 
-// *************
-// Тут необходимо проверить правильность заполнения всех остальных полей.
-// *************
+if (empty($_POST['day'])){
+  print('Заполните день.<br/>');
+  $errors = TRUE;
+}
 
+if(empty($_POST['gender'])){
+  print('Выберите пол.<br/>');
+  $errors = TRUE;
+}
+
+if(empty($_POST['like-4[]'])){
+  print('Выберите ЯП.<br/>');
+  $errors = TRUE;
+}
+
+if(empty($_POST['bio'])){
+  print('Расскажите о себе.<br/>');
+  $errors = TRUE;
+}
+
+if(empty($_POST['check'])){
+  print('Подвердите согласие.<br/>');
+  $errors = TRUE;
+}
+
+if(empty($_POST['tel'])){
+  print('Заполните телефон.<br/>');
+  $errors = TRUE;
+}
+
+if(empty($_POST['email'])){
+  print('Заполните почту.<br/>');
+  $errors = TRUE;
+}
+//дописать регулрки для fio, tel и email
 if ($errors) {
   // При наличии ошибок завершаем работу скрипта.
   exit();

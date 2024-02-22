@@ -31,7 +31,7 @@
           printf('<option value="%d">%d год</option>', $i, $i);
         }
         ?>
-      </select>
+      </select><br />
       Укажите месяц рождения:<br />
       <select name="month">
         <?php
@@ -39,7 +39,7 @@
           printf('<option value="%d">%d месяц</option>', $i, $i);
         }
         ?>
-      </select>
+      </select><br />
       Укажите день рождения:<br />
       <select name="day">
         <?php
@@ -51,34 +51,34 @@
     </label>
     <br />
     Укажите пол:<br />
-    <label><input type="radio" checked="checked" name="radio-group-1" value="мужской" />
+    <label><input type="radio" name="gender" value="мужской" />
       мужской</label>
-    <label><input type="radio" name="radio-group-1" value="женский" />
+    <label><input type="radio" name="gender" value="женский" />
       женский</label><br />
     <label>
       Выберите любимый язык:
       <br />
-      <select name="name-4[]" multiple="multiple">
+      <select name="like-4[]" multiple="multiple">
         <option value="1">С</option>
-        <option value="2" selected="selected">Pascal</option>
-        <option value="3" selected="selected">Scala</option>
-        <option value="4" selected="selected">C++</option>
-        <option value="5" selected="selected">Java</option>
-        <option value="6" selected="selected">Python</option>
-        <option value="7" selected="selected">JavaScript</option>
-        <option value="8" selected="selected">PHP</option>
-        <option value="9" selected="selected">Hascel</option>
-        <option value="10" selected="selected">Clojure</option>
-        <option value="11" selected="selected">Prolog</option>
+        <option value="2">Pascal</option>
+        <option value="3">Scala</option>
+        <option value="4">C++</option>
+        <option value="5">Java</option>
+        <option value="6">Python</option>
+        <option value="7">JavaScript</option>
+        <option value="8">PHP</option>
+        <option value="9">Hascel</option>
+        <option value="10">Clojure</option>
+        <option value="11">Prolog</option>
       </select>
     </label><br />
 
     <label>
       Краткая биография:<br />
-      <textarea name="name-2">Расскажите о себе</textarea>
+      <textarea name="bio"></textarea>
     </label><br />
     С передачей данных:<br />
-    <label><input type="checkbox" checked="checked" name="check-1" />
+    <label><input type="checkbox" name="check" />
       Согласен-а</label><br />
     <input type="submit" value="Сохранить" />
   </form>
