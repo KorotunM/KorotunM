@@ -13,23 +13,42 @@
     <h2 id="section3">Красивая форма</h2>
     <label>
       Введите инициалы:<br />
-      <input name="field-name-1" value="ФИО" />
+      <input name="fio" value="ФИО" />
     </label><br />
     <label>
       Введите телефон:<br />
-      <input name="field-tel" type="tel" placeholder="номер" />
+      <input name="tel" type="tel" placeholder="номер" />
     </label><br />
     <label>
       Введите email:<br />
-      <input name="field-email" type="email" placeholder="почта" />
+      <input name="email" type="email" placeholder="почта" />
     </label><br />
-    <select>
-      <?php
-      for ($i = 1922; $i <= 2022; $i++) {
-        printf('<option value="%d">%d год</option>', $i, $i);
-      }
-      ?>
-    </select>
+    <label>
+      Укажите год рождения:<br />
+      <select name="year">
+        <?php
+        for ($i = 1922; $i <= 2022; $i++) {
+          printf('<option value="%d">%d год</option>', $i, $i);
+        }
+        ?>
+      </select>
+      Укажите месяц рождения:<br />
+      <select name="month">
+        <?php
+        for ($i = 1; $i <= 12; $i++) {
+          printf('<option value="%d">%d месяц</option>', $i, $i);
+        }
+        ?>
+      </select>
+      Укажите день рождения:<br />
+      <select name="day">
+        <?php
+        for ($i = 1; $i <= 31; $i++) {
+          printf('<option value="%d">%d день</option>', $i, $i);
+        }
+        ?>
+      </select>
+    </label>
     <br />
     Укажите пол:<br />
     <label><input type="radio" checked="checked" name="radio-group-1" value="мужской" />
@@ -39,7 +58,7 @@
     <label>
       Выберите любимый язык:
       <br />
-      <select name="field-name-4[]" multiple="multiple">
+      <select name="name-4[]" multiple="multiple">
         <option value="1">С</option>
         <option value="2" selected="selected">Pascal</option>
         <option value="3" selected="selected">Scala</option>
@@ -56,7 +75,7 @@
 
     <label>
       Краткая биография:<br />
-      <textarea name="field-name-2">Расскажите о себе</textarea>
+      <textarea name="name-2">Расскажите о себе</textarea>
     </label><br />
     С передачей данных:<br />
     <label><input type="checkbox" checked="checked" name="check-1" />
