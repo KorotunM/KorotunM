@@ -110,7 +110,7 @@ $email = $_POST['email'];
 $bornday = $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'];
 $gender = $_POST['gender'];
 $bio = $_POST['bio'];
-$checked = $_POST['check'];
+$checked = true;
 $stmt->execute();
 $id_u = lastInsertId();
 
