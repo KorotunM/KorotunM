@@ -108,7 +108,7 @@ $fio = $_POST['fio'];
 $tel = $_POST['tel'];
 $email = $_POST['email'];
 $bornday = $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'];
-$gehder = $_POST['gender'];
+$gender = $_POST['gender'];
 $bio = $_POST['bio'];
 $checked = $_POST['check'];
 $stmt->execute();
