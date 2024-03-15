@@ -118,7 +118,6 @@ foreach ($_POST['like-4'] as $lang) {
   $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_lang,) VALUES (:idu,:id_lang)");
   $stmt->bindParam(':id_u', $id_u);
   $stmt->bindParam(':id_l', $lang);
-  $lang = $_POST['like-4'];
   $stmt->execute();
 }
 
