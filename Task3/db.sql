@@ -1,6 +1,6 @@
 CREATE TABLE Person(
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  fio varchar9(150) NOT NULL DEFAULT '',
+  fio varchar(150) NOT NULL DEFAULT '',
   tel varchar(12) NOT NULL DEFAULT '',
   email varchar(100) NOT NULL DEFAULT '',
   bornday varchar(8) NOT NUll DEFAULT '',
@@ -21,3 +21,14 @@ id_l int(10) unsigned Not NUll DEFAULT 0,
 PRIMARY KEY(id)
 );
 
+INSERT INTO Lang(language) VALUES ('C');
+INSERT INTO Lang(language) VALUES ('Pascal');
+INSERT INTO Lang(language) VALUES ('Scala');
+INSERT INTO Lang(language) VALUES ('C++');
+INSERT INTO Lang(language) VALUES ('Java');
+INSERT INTO Lang(language)VALUES ('Python');
+INSERT INTO Lang(language) VALUES ('JavaScript');
+INSERT INTO Lang(language) VALUES ('PHP');
+INSERT INTO Lang(language) VALUES ('Hascel');
+INSERT INTO Lang(language) VALUES ('Clojure');
+INSERT INTO Lang(language) VALUES ('Prolog');
