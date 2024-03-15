@@ -17,14 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   exit();
 }
 // Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
-
-// Проверяем ошибки.
 $errors = FALSE;
-if (empty($_POST['fio'])) {
+if (empty($_POST['fio']) || !preg_match('/^[а-яА-ЯёЁa-zA-Z\s-]{1,150}$/u', $_POST['fio'])) {
   print('Заполните имя.<br/>');
   $errors = TRUE;
 }
+if(empty($_POST['tel'])||!preg_match('/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/', $_POST(['tel']))){
+  print('Заполните телефон.<br/>');
+  $errors = TRUE;
+}
 
+if(empty($_POST['email'])||!preg_match('/^([a-z0-9_-]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,5})$/i',$_POST['email'])){
+  print('Заполните почту.<br/>');
+  $errors = TRUE;
+}
 if (empty($_POST['year']) || !is_numeric($_POST['year']) || !preg_match('/^\d+$/', $_POST['year'])) {
   print('Заполните год.<br/>');
   $errors = TRUE;
@@ -60,56 +66,40 @@ if(empty($_POST['check'])){
   $errors = TRUE;
 }
 
-if(empty($_POST['tel'])){
-  print('Заполните телефон.<br/>');
-  $errors = TRUE;
-}
-
-if(empty($_POST['email'])){
-  print('Заполните почту.<br/>');
-  $errors = TRUE;
-}
-//дописать регулрки для fio, tel и email
 if ($errors) {
-  // При наличии ошибок завершаем работу скрипта.
   exit();
 }
-
-// Сохранение в базу данных.
 
 $user = 'u67345'; 
 $pass = '2030923';
 $db = new PDO('mysql:host=localhost;dbname=u67345', $user, $pass,
  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); 
 
-// Подготовленный запрос. Не именованные метки.
-// try {
-//   $stmt = $db->prepare("INSERT INTO application SET name = ?");
-//   $stmt->execute([$_POST['fio']]);
-// }
-// catch(PDOException $e){
-//   print('Error : ' . $e->getMessage());
-//   exit();
-// }
-
-//  stmt - это "дескриптор состояния".
- 
-//  Именованные метки.
-//$stmt = $db->prepare("INSERT INTO test (label,color) VALUES (:label,:color)");
-//$stmt -> execute(['label'=>'perfect', 'color'=>'green']);
- 
-//Еще вариант
-$stmt = $db->prepare("INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)");
-$stmt->bindParam(':firstname', $firstname);
-$stmt->bindParam(':lastname', $lastname);
+$stmt = $db->prepare("INSERT INTO users (fio,tel, email, bornday, gender, bio, checked) VALUES (:fio, :tel, :email,:bornday,:gender,:bio,:checked)");
+$stmt->bindParam(':fio', $fio);
+$stmt->bindParam(':tel', $tel);
 $stmt->bindParam(':email', $email);
-// $firstname = "John";
-// $lastname = "Smith";
-// $email = "john@test.com";
+$stmt->bindParam(':bornday', $bornday);
+$stmt->bindparam(':gender',$gender);
+$stmt->bindparam(':lang',$lang);
+$stmt->bindparam(':bio',$checked);
+$stmt->bindparam(':checked',$checked);
+$fio = $_POST['fio'];
+$tel = $_POST['tel'];
+$email = $_POST['email'];
+$bornday = $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'];
+$gehder = $_POST['gender'];
+$bio=$_POST['bio'];
+$checked=$_POST['check'];
 $stmt->execute();
+$id_u = lastInsertId();
 
-// Делаем перенаправление.
-// Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
-// Если ошибок при этом не видно, то необходимо настроить параметр display_errors для PHP.
+foreach($_POST['like-4[]'] as $lang){
+  $stmt = $db->prepare("INSERT INTO ulang (id_u, id_lang,) VALUES (:idu,:id_lang)");
+  $stmt->bindParam(':id_u',$id_u);
+  $stmt->bindParam(':id_lang', $lang);
+  $lang = $_POST['like-4[]'];
+  $stmt->execute();
+}
 
 header('Location: ?save=1');
