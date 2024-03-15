@@ -102,7 +102,6 @@ $stmt->bindParam(':tel', $tel);
 $stmt->bindParam(':email', $email);
 $stmt->bindParam(':bornday', $bornday);
 $stmt->bindparam(':gender', $gender);
-$stmt->bindparam(':lang', $lang);
 $stmt->bindparam(':bio', $checked);
 $stmt->bindparam(':checked', $checked);
 $fio = $_POST['fio'];
