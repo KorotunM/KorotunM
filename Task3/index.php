@@ -102,7 +102,7 @@ $stmt->bindParam(':tel', $tel);
 $stmt->bindParam(':email', $email);
 $stmt->bindParam(':bornday', $bornday);
 $stmt->bindparam(':gender', $gender);
-$stmt->bindparam(':bio', $checked);
+$stmt->bindparam(':bio', $bio);
 $stmt->bindparam(':checked', $checked);
 $fio = $_POST['fio'];
 $tel = $_POST['tel'];
@@ -115,7 +115,7 @@ $stmt->execute();
 $id = $db->lastInsertId();
 
 foreach ($_POST['like-4'] as $lang) {
-  $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_lang) VALUES (:id_u,:id_l)");
+  $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_l) VALUES (:id_u,:id_l)");
   $stmt->bindParam(':id_u', $id_u);
   $stmt->bindParam(':id_l', $lang);
   $id_u=$id;
