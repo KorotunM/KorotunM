@@ -112,7 +112,7 @@ $gender = $_POST['gender'];
 $bio = $_POST['bio'];
 $checked = true;
 $stmt->execute();
-$id_u = lastInsertId();
+$id_u = $pdo->lastInsertId();
 
 foreach ($_POST['like-4'] as $lang) {
   $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_lang,) VALUES (:idu,:id_lang)");
