@@ -51,6 +51,15 @@ if (empty ($_POST['gender'])) {
   $errors = TRUE;
 }
 
+$user = 'u67345';
+$pass = '2030923';
+$db = new PDO(
+  'mysql:host=localhost;dbname=u67345',
+  $user,
+  $pass,
+  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+);
+
 if (empty($_POST['like-4'])) {
   print ('Выберите ЯП.<br/>');
   $errors = TRUE;
@@ -86,15 +95,6 @@ if (empty ($_POST['check'])) {
 if ($errors) {
   exit();
 }
-
-$user = 'u67345';
-$pass = '2030923';
-$db = new PDO(
-  'mysql:host=localhost;dbname=u67345',
-  $user,
-  $pass,
-  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-);
 
 $stmt = $db->prepare("INSERT INTO users (fio,tel, email, bornday, gender, bio, checked) VALUES (:fio, :tel, :email,:bornday,:gender,:bio,:checked)");
 $stmt->bindParam(':fio', $fio);
