@@ -96,7 +96,7 @@ if ($errors) {
   exit();
 }
 
-$stmt = $db->prepare("INSERT INTO users (fio,tel, email, bornday, gender, bio, checked) VALUES (:fio, :tel, :email,:bornday,:gender,:bio,:checked)");
+$stmt = $db->prepare("INSERT INTO Person (fio,tel, email, bornday, gender, bio, checked) VALUES (:fio, :tel, :email,:bornday,:gender,:bio,:checked)");
 $stmt->bindParam(':fio', $fio);
 $stmt->bindParam(':tel', $tel);
 $stmt->bindParam(':email', $email);
@@ -114,11 +114,11 @@ $checked = $_POST['check'];
 $stmt->execute();
 $id_u = lastInsertId();
 
-foreach ($_POST['like-4[]'] as $lang) {
-  $stmt = $db->prepare("INSERT INTO ulang (id_u, id_lang,) VALUES (:idu,:id_lang)");
+foreach ($_POST['like-4'] as $lang) {
+  $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_lang,) VALUES (:idu,:id_lang)");
   $stmt->bindParam(':id_u', $id_u);
-  $stmt->bindParam(':id_lang', $lang);
-  $lang = $_POST['like-4[]'];
+  $stmt->bindParam(':id_l', $lang);
+  $lang = $_POST['like-4'];
   $stmt->execute();
 }
 
