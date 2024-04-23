@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $values['month'] = empty($_COOKIE['month_value']) ? '' : $_COOKIE['month_value'];
   $values['day'] = empty($_COOKIE['day_value']) ? '' : $_COOKIE['day_value'];
   $values['gender'] = empty($_COOKIE['gender_value']) ? '' : $_COOKIE['gender_value'];
-  $values['lang'] = empty($_COOKIE['lang_value']) ? '' : $_COOKIE['lang_value'];
+  $values['lang'] = empty($_COOKIE['lang_value']) ? '' : unserialize($_COOKIE['lang_value']);
   $values['bio'] = empty($_COOKIE['bio_value']) ? '' : $_COOKIE['bio_value'];
   $values['check'] = empty($_COOKIE['check_value']) ? '' : $_COOKIE['check_value'];
 
@@ -185,7 +185,7 @@ if (empty($_POST['lang'])) {
     }
   }
 }
-setcookie('fio_value', serialize($_POST['lang']), time() + 12 * 30 * 24 * 60 * 60);
+setcookie('lang_value', serialize($_POST['lang']), time() + 12 * 30 * 24 * 60 * 60);
 
 if (empty($_POST['bio']) || !preg_match('/^[a-zA-Zа-яА-ЯёЁ0-9\s.,!?:;-]+$/u', $_POST['bio'])) {
   setcookie('bio_error', '1', time() + 24 * 60 * 60);

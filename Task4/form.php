@@ -16,17 +16,6 @@
 
 <body>
 
-<?php
-if (!empty($messages)) {
-  print('<div id="messages">');
-  // Выводим все сообщения.
-  foreach ($messages as $message) {
-    print($message);
-  }
-  print('</div>');
-}
-?>
-
   <form action="index.php" method="POST">
     <h2 id="section3">Красивая форма</h2>
 
@@ -53,7 +42,7 @@ if (!empty($messages)) {
       <select name="year" <?php if ($errors['year']) {print 'class="error"';} ?>>
         <?php
         for ($i = 1922; $i <= 2022; $i++) {
-          printf('<option value="%d">%d год</option>', $i, $i);
+          printf('<option value="%d">%d год</option>',$values['year'] == $i ? 'selected' : '', $i, $i);
         }
         ?>
       </select><br />
@@ -63,7 +52,7 @@ if (!empty($messages)) {
       <select name="month"  <?php if ($errors['month']) {print 'class="error"';} ?> >
         <?php
         for ($i = 1; $i <= 12; $i++) {
-          printf('<option value="%d">%d месяц</option>', $i, $i);
+          printf('<option value="%d">%d месяц</option>',$values['month'] == $i ? 'selected' : '', $i, $i);
         }
         ?>
       </select><br />
@@ -73,7 +62,7 @@ if (!empty($messages)) {
       <select name="day"  <?php if ($errors['day']) {print 'class="error"';} ?> >
         <?php
         for ($i = 1; $i <= 31; $i++) {
-          printf('<option value="%d">%d день</option>', $i, $i);
+          printf('<option value="%d">%d день</option>',$values['day'] == $i ? 'selected' : '', $i, $i);
         }
         ?>
       </select>
