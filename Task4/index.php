@@ -217,9 +217,7 @@ setcookie('check_value', $_POST['check'], time() + 12 * 30 * 24 * 60 * 60);
     setcookie('bio_error', '', 100000);
     setcookie('check_error', '', 100000);
   }
-  // Включаем содержимое файла form.php.
-  include ('form.php');
-}
+
 
 try {
   $stmt = $db->prepare("INSERT INTO Person SET fio = ?, tel = ?, email = ?, bornday = ?, gender = ?, bio = ?, checked = ?");
@@ -242,3 +240,4 @@ catch(PDOException $ex){
 setcookie('save', '1');
 
 header('Location: index.php');
+}
