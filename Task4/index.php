@@ -149,7 +149,7 @@ if (empty ($_POST['day'])|| !is_numeric($_POST['day']) || $_POST['day']<0 || $_P
 }
 setcookie('day_value', $_POST['day'], time() + 12 * 30 * 24 * 60 * 60);
 
-if (empty($_POST['gender']) || $_POST['gender'] != 'man' || $_POST['gender'] != 'woman') {
+if (empty($_POST['gender']) || ($_POST['gender'] != 'man' && $_POST['gender'] != 'woman')) {
   setcookie('gender_error', '1', time() + 24 * 60 * 60);
   $errors = TRUE;
 }
