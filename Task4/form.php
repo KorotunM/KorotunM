@@ -91,7 +91,7 @@ if (!empty($messages)) {
     <label>
       Выберите любимый язык:
       <br />
-      <select name="lang" multiple="multiple" <?php if ($errors['lang']) {print 'class="error"';} ?>>
+      <select name="lang[]" multiple="multiple" <?php if ($errors['lang']) {print 'class="error"';} ?>>
         <option <?php check_lang($values, "1")?> value="1">С</option>
         <option <?php check_lang($values, "2")?> value="2">Pascal</option>
         <option <?php check_lang($values, "3")?> value="3">Scala</option>
