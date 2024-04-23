@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 // Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
 else {
   // Проверяем ошибки.
-  $errors = FALSE;
+$errors = FALSE;
 if (empty($_POST['fio']) || !preg_match('/^[а-яА-ЯёЁa-zA-Z\s-]{1,150}$/u', $_POST['fio'])) {
   setcookie('fio_error', '1', time() + 24 * 60 * 60);
   $errors = TRUE;
@@ -219,8 +219,6 @@ setcookie('check_value', $_POST['check'], time() + 12 * 30 * 24 * 60 * 60);
   }
   // Включаем содержимое файла form.php.
   include ('form.php');
-  // Завершаем работу скрипта.
-  exit();
 }
 
 try {
