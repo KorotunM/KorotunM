@@ -19,11 +19,20 @@ if ($_COOKIE[session_name()] && session_start()) {
   $session_started = true;
   if (!empty($_SESSION['login'])) {
     // Если есть логин в сессии, то пользователь уже авторизован.
-    // TODO: Сделать выход (окончание сессии вызовом session_destroy()
-    //при нажатии на кнопку Выход).
-    // Делаем перенаправление на форму.
-    header('Location: ./');
-    exit();
+    ?>
+      <section>
+        <form action="" method="post">
+          <div>Пользователь уже авторизован</div><br>
+          <input class="finalBut" type="submit" name="logout" value="Выход"/>
+        </form>
+      </section>
+    <?php
+    if (isset($_POST['logout'])) {
+      session_destroy();
+      header('Location: ./');
+      exit();
+    }
+    
   }
 }
 
@@ -42,16 +51,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 // Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
 else {
-  // TODO: Проверть есть ли такой логин и пароль в базе данных.
   // Выдать сообщение об ошибках.
-
+  $sth = $db->prepare("SELECT*FROM person_login");
+  $sth->execute();
+  $log_pass = $sth->fetchAll();
+  $error_logpas = true;
+  foreach($log_pass as $lp){
+    if($login == $lp['login_u'] && $pass == $lp['pass_u']){
+      $error_logpas = false;
+      break;
+    }
+  }
+  if($error_logpas == true){
+    print('<div> Ошибка пользователя с таким логином или паролем нет </div>');
+  }
   if (!$session_started) {
     session_start();
   }
   // Если все ок, то авторизуем пользователя.
   $_SESSION['login'] = $_POST['login'];
   // Записываем ID пользователя.
-  $_SESSION['uid'] = 123;
+  $_SESSION['uid'] = count($log_pass);
 
   // Делаем перенаправление.
   header('Location: ./');
