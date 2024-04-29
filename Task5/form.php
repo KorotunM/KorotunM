@@ -16,6 +16,15 @@
 
 <body>
 
+<?php 
+
+if (!empty($messages['entry'])) {
+  print('<div id="messages">');
+  print($messages['entry'] . '</div>');
+}
+
+?>
+
   <form action="index.php" method="POST">
     <h2 id="section3">Красивая форма</h2>
 
