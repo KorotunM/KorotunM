@@ -287,13 +287,13 @@ else {
   // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
-        $id=intval($_SESSION['uid']);
+        $id = intval($_SESSION['uid']);
         try{
         $stmt = $db->prepare("UPDATE Person SET fio = ?, tel = ?, email = ?, bornday = ?, gender = ?, bio = ?, checked = ?");
         $stmt->execute([$_POST['fio'], $_POST['tel'], $_POST['email'], $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'], $_POST['gender'], $_POST['bio'], true]);
 
         //очищаем старые данные в таблице языков и записываемых их новыми выбранными
-        $stmt = $db->prepare("DELETE FROM person_lang where id_u = $uid where id_u = ?");
+        $stmt = $db->prepare("DELETE FROM person_lang where id_u = ?");
         $stmt ->execute([$id]);
 
         $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_l) VALUES (:id_u,:id_l)");
