@@ -116,9 +116,42 @@ if($errors['check']){
 
   // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
   // ранее в сессию записан факт успешного логина.
+  $user = 'u67345';
+  $pass = '2030923';
+  $db = new PDO(
+    'mysql:host=localhost;dbname=u67345',
+    $user,
+    $pass,
+    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+  );
+  $uid = $_SESSION['uid'];
   if (empty($errors) && !empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
-    // TODO: загрузить данные пользователя из БД
+      $sth = $db->prepare("SELECT fio, tel, email, bornday, gender, bio, checked FROM Person 
+      WHERE id = $uid");
+      $sth->execute();
+      $data=$sth->fetchAll();
+      $values['fio']=strip_tags($data[0]['fio']);
+      $values['tel']=strip_tags($data[0]['tel']);
+      $values['email']=strip_tags($data[0]['email']);
+
+      $pos1 = strpos(strip_tags($data[0]['bornday']),'.');
+      $values['day']=strip_tags(intval(substr($data[0]['bornday'], 0, $pos1)));
+
+      $pos2 = strrpos(strip_tags($data[0]['bornday']),'.');//1.28.2005
+      $values['month']=strip_tags(intval(substr($data[0]['bornday'], $pos1 + 1, $pos2 - $pos1 - 1)));
+      $values['year']=strip_tags(intval(substr($data[0]['bornday'], $pos2 + 1, 4)));
+      
+      $values['gender']=strip_tags($data[0]['gender']);
+      $values['bio']=strip_tags($data[0]['bio']);
+      $values['checked']=strip_tags($data[0]['checked']);
+
+      $sth = $db->prepare("SELECT*FROM person_lang WHERE id_u = $uid");
+      $sth->execute();
+      $languages = $sth->fetchAll();
+      foreach($languages as $lang){
+        array_push($values['lang'], strip_tags($lang['id_l']));
+      }
     // и заполнить переменную $values,
     // предварительно санитизовав.
     printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
@@ -131,7 +164,6 @@ if($errors['check']){
 }
 // Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
 else {
-  // Проверяем ошибки.
  // Проверяем ошибки.
  $errors = FALSE;
  if (empty($_POST['fio']) || !preg_match('/^[а-яА-ЯёЁa-zA-Z\s-]{1,150}$/u', $_POST['fio'])) {
@@ -176,14 +208,7 @@ else {
  }
  setcookie('gender_value', $_POST['gender'], time() + 12 * 30 * 24 * 60 * 60);
  
- $user = 'u67345';
- $pass = '2030923';
- $db = new PDO(
-   'mysql:host=localhost;dbname=u67345',
-   $user,
-   $pass,
-   [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
- );
+
  
  if (empty($_POST['lang'])) {
    setcookie('lang_error', '1', time() + 24 * 60 * 60);
@@ -242,22 +267,58 @@ else {
   // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
-    // TODO: перезаписать данные в БД новыми данными,
+        try{
+        $stmt = $db->prepare("UPDATE Person SET fio = ?, tel = ?, email = ?, bornday = ?, gender = ?, bio = ?, checked = ?");
+        $stmt->execute([$_POST['fio'], $_POST['tel'], $_POST['email'], $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'], $_POST['gender'], $_POST['bio'], true]);
+
+        //очищаем старые данные в таблице языков и записываемых их новыми выбранными
+        $stmt = $db->prepare("DELETE FROM person_lang where id_u = $uid");
+        $stmt ->execute();
+
+        $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_l) VALUES (:id_u,:id_l)");
+        foreach ($_POST['lang'] as $lang) {
+          $stmt->bindParam(':id_u', $id_u);
+          $stmt->bindParam(':id_l', $lang);
+          $id_u = $uid;
+          $stmt->execute();
+        }
+      }
+      catch(PDOException $ex){
+        print('Error : ' . $ex->getMessage());
+        exit();
+      }
     // кроме логина и пароля.
   }
   else {
     // Генерируем уникальный логин и пароль.
-    // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
-    $login = '123';
-    $pass = '123';
+    $login = uniqid();
+    $pass = uniqid();
     // Сохраняем в Cookies.
     setcookie('login', $login);
     setcookie('pass', $pass);
+    // Сохранение данных формы, логина и хеш md5() пароля в базу данных.
+    try {
+      $stmt = $db->prepare("INSERT INTO Person SET fio = ?, tel = ?, email = ?, bornday = ?, gender = ?, bio = ?, checked = ?");
+      $stmt->execute([$_POST['fio'], $_POST['tel'], $_POST['email'], $_POST['day'] . '.' . $_POST['month'] . '.' . $_POST['year'], $_POST['gender'], $_POST['bio'], true]);
+      $id = $db->lastInsertId();
+    
+      $stmt = $db->prepare("INSERT INTO person_lang (id_u, id_l) VALUES (:id_u,:id_l)");
+      foreach ($_POST['lang'] as $lang) {
+        $stmt->bindParam(':id_u', $id_u);
+        $stmt->bindParam(':id_l', $lang);
+        $id_u=$id;
+        $stmt->execute();
+      }
 
-    // TODO: Сохранение данных формы, логина и хеш md5() пароля в базу данных.
+      $stmt = $db->prepare("INSERT INTO person_login SET login_u = ?, pass_u = ?");
+      $stmt->execute([$login, md5($pass)]);
+    }
+    catch(PDOException $ex){
+      print('Error : ' . $ex->getMessage());
+      exit();
+    }
     // ...
   }
-
   // Сохраняем куку с признаком успешного сохранения.
   setcookie('save', '1');
 
