@@ -315,8 +315,8 @@ else {
     $login = uniqid();
     $pass = uniqid();
     // Сохраняем в Cookies.
-    setcookie('login', $login);
-    setcookie('pass', $pass);
+    setcookie('login', $login, time() + 12 * 30 * 24 * 60 * 60);
+    setcookie('pass', $pass, time() + 12 * 30 * 24 * 60 * 60);
     // Сохранение данных формы, логина и хеш md5() пароля в базу данных.
     try {
       $stmt = $db->prepare("INSERT INTO Person SET fio = ?, tel = ?, email = ?, bornday = ?, gender = ?, bio = ?, checked = ?");
