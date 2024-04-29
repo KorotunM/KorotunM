@@ -74,6 +74,7 @@ else {
     print('<div> Ошибка пользователя с таким логином или паролем нет </div>');
   }else{
   if (!$session_started) {
+    print('<div> Всё в порядке </div>');
     session_start();
   }
 }
