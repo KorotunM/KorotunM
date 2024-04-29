@@ -300,7 +300,7 @@ else {
         foreach ($_POST['lang'] as $lang) {
           $stmt->bindParam(':id_u', $id_u);
           $stmt->bindParam(':id_l', $lang);
-          $id_u = $uid;
+          $id_u = $id;
           $stmt->execute();
         }
       }
