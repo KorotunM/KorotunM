@@ -60,6 +60,8 @@ else {
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
   );
   // Выдать сообщение об ошибках.
+  $login = $_POST['login'];
+  $pass = md5($_POST['pass']);
   $sth = $db->prepare("SELECT*FROM person_login");
   $sth->execute();
   $log_pass = $sth->fetchAll();
