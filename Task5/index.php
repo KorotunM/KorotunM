@@ -312,7 +312,7 @@ else {
   }
   else {
     // Генерируем уникальный логин и пароль.
-    $login = uniqid();
+    $login = uniqid('lg');
     $pass = uniqid();
     // Сохраняем в Cookies.
     setcookie('login', $login, time() + 12 * 30 * 24 * 60 * 60);
