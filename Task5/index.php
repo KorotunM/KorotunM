@@ -110,7 +110,7 @@ if($errors['check']){
   $values['month'] = empty($_COOKIE['month_value']) ? '' : strip_tags($_COOKIE['month_value']);
   $values['day'] = empty($_COOKIE['day_value']) ? '' : strip_tags($_COOKIE['day_value']);
   $values['gender'] = empty($_COOKIE['gender_value']) ? '' : strip_tags($_COOKIE['gender_value']);
-  $values['lang'] = empty($_COOKIE['lang_value']) ? '' : strip_tags(unserialize($_COOKIE['lang_value']));
+  $values['lang'] = empty($_COOKIE['lang_value']) ? '' : unserialize(strip_tags($_COOKIE['lang_value']));
   $values['bio'] = empty($_COOKIE['bio_value']) ? '' : strip_tags($_COOKIE['bio_value']);
   $values['check'] = empty($_COOKIE['check_value']) ? '' : strip_tags($_COOKIE['check_value']);
 
