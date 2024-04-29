@@ -114,6 +114,18 @@ if($errors['check']){
   $values['bio'] = empty($_COOKIE['bio_value']) ? '' : strip_tags($_COOKIE['bio_value']);
   $values['check'] = empty($_COOKIE['check_value']) ? '' : strip_tags($_COOKIE['check_value']);
 
+  function check_lang($values, $temp)
+  {
+    if (!empty($values) && !empty($values['lang'])) {
+      foreach($values['lang'] as $value) {
+        if ($value == $temp) {
+          print("selected");
+        }
+      }
+    }
+  }
+  
+
   // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
   // ранее в сессию записан факт успешного логина.
   $user = 'u67345';
