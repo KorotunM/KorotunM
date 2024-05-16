@@ -128,14 +128,7 @@ if($errors['check']){
 
   // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
   // ранее в сессию записан факт успешного логина.
-  $user = 'u67345';
-  $pass = '2030923';
-  $db = new PDO(
-    'mysql:host=localhost;dbname=u67345',
-    $user,
-    $pass,
-    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-  );
+  include('../password.php');
   
   if (empty($errors) && !empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
