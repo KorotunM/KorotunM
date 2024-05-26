@@ -102,6 +102,9 @@
     margin: 23px;
     border-collapse: collapse;
   }
+  .SaveBut{
+    background-color: #45a049;
+  }
   .users {
     width: 60%;
   }

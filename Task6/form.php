@@ -122,7 +122,7 @@ if (!empty($messages['admin'])) {
     <input type="checkbox" name="check" <?php if (!empty($values['check'])) {print('checked');} ?>/> Согласен-а
     </label><br />
     <?php if ($errors['check']) {print($messages['check']); print('<br>');}?>
-    <input type="submit" value="Сохранить" />
+    <input class = "SaveBut"type="submit" value="Сохранить" />
   </form>
 </body>
 
