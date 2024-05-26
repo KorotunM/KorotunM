@@ -97,14 +97,14 @@
     margin-bottom: 30px;
   }
   table {
-    margin: 23px auto;
+    margin: 23px;
     border-collapse: collapse;
   }
   .users {
-    width: 90%;
+    width: 60%;
   }
   .languages {
-    width: 70%;
+    width: 50%;
   }
   .user_count {
     width: 50%;
