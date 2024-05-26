@@ -1,13 +1,4 @@
 <?php
-
-/**
- * Задача 6. Реализовать вход администратора с использованием
- * HTTP-авторизации для просмотра и удаления результатов.
- **/
-
-// Пример HTTP-аутентификации.
-// PHP хранит логин и пароль в суперглобальном массиве $_SERVER.
-// Подробнее см. стр. 26 и 99 в учебном пособии Веб-программирование и веб-сервисы.
 include('../password.php');
 $sth = $db->prepare("SELECT * FROM admin_login");
 $sth->execute();
@@ -95,7 +86,7 @@ $sth->execute();
 $users_lang = $sth->fetchAll();
 ?>
 
-<h2>Таблица языков программирования</h2>
+<h2>Языки программирования пользователей</h2>
 <table class="languages">
   <tr>
     <th>ID пользователя</th>
@@ -112,11 +103,11 @@ $users_lang = $sth->fetchAll();
   ?>
 </table>
 
-<h2>Статистика популярности языков программирования</h2>
+<h2>Общая статистика популярности языков програмирования</h2>
 <table class="user_count">
   <tr>
     <th>Язык программирования</th>
-    <th>Количество поклонников</th>
+    <th>Количество выбравших людей</th>
   </tr>
   <?php
     $sth = $db->prepare("SELECT l.language AS language_name, COUNT(pl.id_u) AS user_count FROM Lang l LEFT JOIN person_lang pl ON l.id = pl.id_l GROUP BY l.language");
