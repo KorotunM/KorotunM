@@ -112,7 +112,7 @@ if($errors['check']){
     }
   }
   
-  if (!empty($_COOKIE[session_name()]) && session_start() && !empty($_SESSION['login'])) {
+  if (!empty($_COOKIE[session_name()]) && !empty($_SESSION['login'])) {
     include('ChangeAction_Form.php');
     printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']); 
   }
