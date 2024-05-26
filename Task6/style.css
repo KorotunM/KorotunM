@@ -3,7 +3,7 @@
     padding: 5px;
   }
   body{
-    background-color: aqua;
+    background-color: rgba(169, 253, 253, 0.921);
   }
   button:hover {
     background-color: #45a049;
