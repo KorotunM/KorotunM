@@ -63,8 +63,9 @@
   }
   .gender {
     display: flex;
-    align-items: center;
+    align-items: left;
     margin-bottom: 15px;
+    font-size: 16px;
   }
   .radiobutton {
     margin-right: 10px;
