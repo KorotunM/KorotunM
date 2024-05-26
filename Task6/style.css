@@ -85,13 +85,14 @@
   
   .Button {
     padding: 10px 20px;
-    background-color: #57728091;
+    background-color: #e0d016d5;
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    align-items: left;
+    width: 20%;
+    float: left;
   }
   .finalBut
   {
