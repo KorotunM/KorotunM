@@ -58,14 +58,14 @@ include('SelectDataUsers.php');
       <td>%s</td>
       <td>%s</td>
       <td class="nullCell">
-        <form action="action.php" method="POST">
+        <form action="delete_change_event.php" method="POST">
           <input type="hidden" name="action" value="change">
           <input type="hidden" name="id" value="%d">
           <input type="submit" class="tableButtonCh" value="изменить"/>
         </form>
       </td>
       <td class="nullCell">
-        <form action="action.php" method="POST">
+        <form action="delete_change_event.php" method="POST">
           <input type="hidden" name="action" value="delete">
           <input type="hidden" name="id" value="%d">
           <input type="submit" class="tableButtonDel" value="удалить"/>
