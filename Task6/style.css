@@ -61,15 +61,13 @@
     margin-left: 4px;
     width: 40%;
   }
-  .radiobutton
-  {
-    flex-direction: row;
-    height: 16px;
-    width: 16px;
-    display: inline-block;
-    vertical-align: middle; 
-    margin-right: 10px; 
-    
+  .gender {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .radiobutton {
+    margin-right: 10px;
   }
   
   textarea {
