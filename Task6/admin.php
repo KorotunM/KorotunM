@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style.css">
 <?php
 include('../password.php');
 $sth = $db->prepare("SELECT * FROM admin_login");
