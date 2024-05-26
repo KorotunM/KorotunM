@@ -1,36 +1,23 @@
 <?php
-/**
- * Реализовать возможность входа с паролем и логином с использованием
- * сессии для изменения отправленных данных в предыдущей задаче,
- * пароль и логин генерируются автоматически при первоначальной отправке формы.
- */
-
-// Отправляем браузеру правильную кодировку,
-// файл index.php должен быть в кодировке UTF-8 без BOM.
 header('Content-Type: text/html; charset=UTF-8');
-
-// В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
-// и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  // Массив для временного хранения сообщений пользователю.
   $messages = array();
-
-  // В суперглобальном массиве $_COOKIE PHP хранит все имена и значения куки текущего запроса.
-  // Выдаем сообщение об успешном сохранении.
   if (!empty($_COOKIE['save'])) {
-    // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('save', '', 100000);
     setcookie('login', '', 100000);
     setcookie('pass', '', 100000);
-    // Выводим сообщение пользователю.
     $messages[] = 'Спасибо, результаты сохранены.';
-    // Если в куках есть пароль, то выводим сообщение.
     if (!empty($_COOKIE['pass'])) {
       $messages['entry'] = sprintf('Вы можете <a href="login.php">войти</a> с логином <strong>%s</strong>
         и паролем <strong>%s</strong> для изменения данных.',
         strip_tags($_COOKIE['login']),
         strip_tags($_COOKIE['pass']));
     }
+  }
+
+  if (empty($_COOKIE[session_name()]) && empty($_SESSION['login']))
+  {
+    $messages['admin'] = '<a href="admin.php">Войти</a> как администратор.';
   }
 
   // Складываем признак ошибок в массив.
@@ -125,52 +112,14 @@ if($errors['check']){
     }
   }
   
-
-  // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
-  // ранее в сессию записан факт успешного логина.
-  include('../password.php');
-  
-  if (empty($errors) && !empty($_COOKIE[session_name()]) &&
-      session_start() && !empty($_SESSION['login'])) {
-      $uid = $_SESSION['uid'];
-      $sth = $db->prepare("SELECT fio, tel, email, bornday, gender, bio, checked FROM Person 
-      WHERE id = $uid");
-      $sth->execute();
-      $data=$sth->fetchAll();
-      $values['fio']=strip_tags($data[0]['fio']);
-      $values['tel']=strip_tags($data[0]['tel']);
-      $values['email']=strip_tags($data[0]['email']);
-
-      $pos1 = strpos(strip_tags($data[0]['bornday']),'.');
-      $values['day']=strip_tags(intval(substr($data[0]['bornday'], 0, $pos1)));
-
-      $pos2 = strrpos(strip_tags($data[0]['bornday']),'.');//1.28.2005
-      $values['month']=strip_tags(intval(substr($data[0]['bornday'], $pos1 + 1, $pos2 - $pos1 - 1)));
-      $values['year']=strip_tags(intval(substr($data[0]['bornday'], $pos2 + 1, 4)));
-      
-      $values['gender']=strip_tags($data[0]['gender']);
-      $values['bio']=strip_tags($data[0]['bio']);
-      $values['checked']=strip_tags($data[0]['checked']);
-
-      $sth = $db->prepare("SELECT*FROM person_lang WHERE id_u = $uid");
-      $sth->execute();
-      $languages = $sth->fetchAll();
-      foreach($languages as $lang){
-        array_push($values['lang'], strip_tags($lang['id_l']));
-      }
-    // и заполнить переменную $values,
-    // предварительно санитизовав.
-    printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
+  if (empty($errors) && !empty($_COOKIE[session_name()]) && session_start() && !empty($_SESSION['login'])) {
+    include('ChangeAction_Form');
+    printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']); 
   }
 
-  // Включаем содержимое файла form.php.
-  // В нем будут доступны переменные $messages, $errors и $values для вывода 
-  // сообщений, полей с ранее заполненными данными и признаками ошибок.
   include('form.php');
 }
-// Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
 else {
- // Проверяем ошибки.
  $errors = FALSE;
  if (empty($_POST['fio']) || !preg_match('/^[а-яА-ЯёЁa-zA-Z\s-]{1,150}$/u', $_POST['fio'])) {
    setcookie('fio_error', '1', time() + 24 * 60 * 60);
@@ -213,15 +162,8 @@ else {
    $errors = TRUE;
  }
  setcookie('gender_value', $_POST['gender'], time() + 12 * 30 * 24 * 60 * 60);
- 
- $user = 'u67345';
- $pass = '2030923';
- $db = new PDO(
-   'mysql:host=localhost;dbname=u67345',
-   $user,
-   $pass,
-   [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
- );
+
+ include('../password.php');
  
  if (empty($_POST['lang'])) {
    setcookie('lang_error', '1', time() + 24 * 60 * 60);
@@ -301,7 +243,6 @@ else {
         print('Error : ' . $ex->getMessage());
         exit();
       }
-    // кроме логина и пароля.
   }
   else {
     // Генерируем уникальный логин и пароль.
@@ -336,6 +277,17 @@ else {
   // Сохраняем куку с признаком успешного сохранения.
   setcookie('save', '1');
 
-  // Делаем перенаправление.
+  // Сохраняем куку с признаком успешного сохранения.
+  setcookie('save', '1');
+
+  $sth = $db->prepare("SELECT * FROM admin_login");
+  $sth->execute();
+  $admin_login = $sth->fetchAll();
+    // Делаем перенаправление.
+  if (!empty($_COOKIE['admin']) && $_COOKIE['admin'] == $admin_login[0]['pass_a']) {
+    header('Location: admin.php');
+  }
+  else {
   header('Location: ./');
+}
 }

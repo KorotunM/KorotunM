@@ -155,14 +155,7 @@ if (empty($_POST['gender']) || ($_POST['gender'] != 'man' && $_POST['gender'] !=
 }
 setcookie('gender_value', $_POST['gender'], time() + 12 * 30 * 24 * 60 * 60);
 
-$user = 'u67345';
-$pass = '2030923';
-$db = new PDO(
-  'mysql:host=localhost;dbname=u67345',
-  $user,
-  $pass,
-  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-);
+include('../password.php');
 
 if (empty($_POST['lang'])) {
   setcookie('lang_error', '1', time() + 24 * 60 * 60);

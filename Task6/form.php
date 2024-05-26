@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Drupal Coder</title>
+  <title>...</title>
   <link rel="stylesheet" href="style.css">
   <style>
 /* Сообщения об ошибках и поля с ошибками выводим с красным бордюром. */
@@ -23,6 +23,12 @@ if (!empty($messages['entry'])) {
   print($messages['entry'] . '</div>');
 }
 
+if (!empty($messages['admin'])) {
+  print('<div class="mes" id="messages">');
+  print($messages['admin']);
+  print('</div>');
+  print('<br>');
+}
 ?>
 
   <form action="index.php" method="POST">

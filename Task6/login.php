@@ -1,24 +1,9 @@
 <?php
-
-/**
- * Файл login.php для не авторизованного пользователя выводит форму логина.
- * При отправке формы проверяет логин/пароль и создает сессию,
- * записывает в нее логин и id пользователя.
- * После авторизации пользователь перенаправляется на главную страницу
- * для изменения ранее введенных данных.
- **/
-
-// Отправляем браузеру правильную кодировку,
-// файл login.php должен быть в кодировке UTF-8 без BOM.
 header('Content-Type: text/html; charset=UTF-8');
-
-// В суперглобальном массиве $_SESSION хранятся переменные сессии.
-// Будем сохранять туда логин после успешной авторизации.
 $session_started = false;
 if (!empty($_COOKIE[session_name()]) && session_start()) {
   $session_started = true;
   if (!empty($_SESSION['login'])) {
-    // Если есть логин в сессии, то пользователь уже авторизован.
     ?>
       <section>
         <form action="" method="post">
@@ -29,6 +14,7 @@ if (!empty($_COOKIE[session_name()]) && session_start()) {
     <?php
     if (isset($_POST['logout'])) {
       session_destroy();
+      setcookie('PHPSESSID', '', 100000, '/');
       header('Location: ./');
       exit();
     }
@@ -36,8 +22,6 @@ if (!empty($_COOKIE[session_name()]) && session_start()) {
   }
 }
 
-// В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
-// и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 ?>
 
@@ -49,11 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 <?php
 }
-// Иначе, если запрос был методом POST, т.е. нужно сделать авторизацию с записью логина в сессию.
 else {
 
   include('../password.php');
-  // Выдать сообщение об ошибках.
   $login = $_POST['login'];
   $pass = md5($_POST['pass']);
   $sth = $db->prepare("SELECT*FROM person_login");
@@ -74,11 +56,7 @@ else {
     session_start();
   }
 }
-  // Если все ок, то авторизуем пользователя.
   $_SESSION['login'] = $_POST['login'];
-  // Записываем ID пользователя.
   $_SESSION['uid'] = count($log_pass);
-
-  // Делаем перенаправление.
   header('Location: ./');
 }
