@@ -2,7 +2,9 @@
     margin-bottom: 10px;
     padding: 5px;
   }
-  
+  body{
+    background-color: aqua;
+  }
   button:hover {
     background-color: #45a049;
   }
