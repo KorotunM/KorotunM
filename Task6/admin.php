@@ -123,7 +123,7 @@ $users_lang = $sth->fetchAll();
   ?>
 </table>
 
-<form action="index.php" method="POST">
+<form action="index.php" method="GET">
   <input type="submit" class="finalBut Button" name="exit_admin" value="Выход">
 </form>
 
