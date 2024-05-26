@@ -87,8 +87,8 @@ if (!empty($messages['admin'])) {
 
     Укажите пол:<br />
     <label class="gd_rad <?php if ($errors['gender']) {print " error";} ?>">
-      <input type="radio" name="gender" value="man" <?php if ($values['gender'] == 'man') print('checked'); ?> /> мужской
-      <input type="radio" name="gender" value="woman" <?php if ($values['gender'] == 'woman') print('checked'); ?> />женский
+      <input class="radiobutton" type="radio" name="gender" value="man" <?php if ($values['gender'] == 'man') print('checked'); ?> /> мужской
+      <input class="radiobutton" type="radio" name="gender" value="woman" <?php if ($values['gender'] == 'woman') print('checked'); ?> />женский
     </label><br />
     <?php if ($errors['gender']) {print($messages['gender']); print('<br>');}?>
 
